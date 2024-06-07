@@ -1,0 +1,11 @@
+build/
+template/
+*.gz
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.fls
+*.fdb_latexmk
+*.pdf
