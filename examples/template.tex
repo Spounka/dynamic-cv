@@ -1,0 +1,66 @@
+\documentclass[a4paper,11pt]{article}
+
+\usepackage{titlesec}
+\usepackage{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\setlength{\footskip}{4.08003pt}
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\geometry{left=1.4cm, top=1cm, right=1.4cm, bottom=1cm}
+\usepackage[most]{tcolorbox}
+
+\raggedright
+\setlength{\footskip}{4.08003pt}
+
+% Sections formatting
+\titleformat{\section}{
+    \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-7pt}]
+
+
+\newcommand{\name}{ Name } % Your Name
+\newcommand{\course}{ Program } % Your Program
+\newcommand{\phone}{  Phone Number  } % Your Phone Number
+\newcommand{\emaila}{  Email  } %Email 1
+\newcommand{\address}{ Address } % Address
+\newcommand{\github}{\url{ GitHub }}
+\newcommand{\linkedIn}{\url{ LinkedIn }}
+
+
+\begin{document}
+    \fontfamily{put}\selectfont
+
+    \centering
+    \textbf{\Large{\name}}
+
+    \course
+
+    \vspace*{2.5mm}
+    +1 \phone
+
+    \emaila
+    \hspace*{1mm}
+
+    \github
+    \hspace*{1mm}
+
+    \linkedIn
+    \hspace*{1mm}
+
+    \address
+
+    \vspace{-3mm}
+
+
+    \section{Summary}
+    \vspace{1mm}
+    Summary description
+
+
+    \input{example_include.tex}
+    \vspace{-5mm}
+%-------------------------------------------
+\end{document}
