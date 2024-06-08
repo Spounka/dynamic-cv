@@ -75,7 +75,7 @@ class CVData(TypedDict):
 
 def list_yaml_files(directory: Path) -> List[Path]:
     """Lists all yaml files in directory and returns them in a list"""
-    return [file for file in directory.iterdir() if file.is_file() and file.suffix in ['yml', 'yaml']]
+    return [file for file in directory.iterdir() if file.is_file() and file.suffix in ['.yml', '.yaml']]
 
 
 def load_yaml_file(file: Path):
@@ -88,8 +88,8 @@ def load_yaml_file(file: Path):
         return None
 
 
-def load_data_files(dir: Path) -> Generator[CVData, None, None]:
-    for file in list_yaml_files(dir):
+def load_data_files(path: Path) -> Generator[CVData, None, None]:
+    for file in list_yaml_files(path):
         data = load_yaml_file(file)
         if data:
             yield data
