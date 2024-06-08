@@ -1,5 +1,12 @@
-build/
+.venv/
+.idea/
+
 template/
+sections/
+build/
+data/
+cv/
+
 *.gz
 *.aux
 *.bbl
