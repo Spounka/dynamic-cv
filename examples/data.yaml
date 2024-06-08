@@ -1,0 +1,59 @@
+languages:
+  en:
+    personal_info:
+      name: ""
+      course: ""
+      phone: ""
+      email: ""
+      address: ""
+      github: ""
+      linkedIn: ""
+    summary: ""
+    education:
+      - title: ""
+        date: ""
+        university: ""
+    technical_skills:
+      - title: "Skill Title"
+        skills:
+          - "Skill"
+    experiences:
+      - title: ""
+        company: ""
+        projects:
+          - name: ""
+            date: ""
+            description:
+              - ""
+    spoken_languages:
+      - name: ""
+        proficiency: "Proficient"
+  fr:
+    personal_info:
+      name: ""
+      course: ""
+      phone: ""
+      email: ""
+      address: ""
+      github: ""
+      linkedIn: ""
+    summary: ""
+    education:
+      - title: ""
+        date: ""
+        university: ""
+    technical_skills:
+      - title: "Skill Title"
+        skills:
+          - "Skill"
+    experiences:
+      - title: ""
+        company: ""
+        projects:
+          - name: ""
+            date: ""
+            description:
+              - ""
+    spoken_languages:
+      - name: ""
+        proficiency: "Proficient"
