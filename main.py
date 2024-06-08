@@ -96,7 +96,7 @@ def load_data_files(dir: Path) -> Generator[CVData, None, None]:
 
 
 def main():
-    for file in load_data_files():
+    for file in load_data_files(DATA_DIR):
         if file.get('languages', None).get('en', None).get("summary", None).get("name", None):
             print(file['languages']['en']['summary']['details'])
 
