@@ -3,7 +3,7 @@ import yaml
 import os
 import subprocess
 from pathlib import Path
-from typing import TypedDict, List, Generator, Tuple
+from typing import TypedDict, List, Generator, Tuple, Literal
 
 BASE_DIR = Path(__file__).parent.resolve()
 DATA_DIR = BASE_DIR / "data"
@@ -11,7 +11,7 @@ TEMPLATES = BASE_DIR / "template"
 BUILD_DIR = BASE_DIR / 'build'
 PATH_TO_IMAGE = BASE_DIR / 'images' / 'NazihPicture3.jpg'
 
-LANGS = ['en', 'fr']
+LANGS: List[Literal['en', 'fr']] = ['en', 'fr']
 FORMATS = ['ats', 'pretty']
 
 
@@ -148,11 +148,20 @@ def main():
                 template = env.get_template(f"template_{form}.tex")
                 result = render_template(template, data)
 
-                write_results_to_pdf(temp / f"cv_{name}_{lang}_{form}.tex", result)
+                write_results_to_pdf(
+                    temp / f"cv_{name}_{lang}_{form}.tex", result)
                 os.chdir(temp)
                 print(os.getcwd())
-                subprocess.run(['xelatex', f'--jobname="CV_Nazih_Boudaakkar_{name}"',
-                                f"./cv_{name}_{lang}_{form}.tex"])
+
+                print("\n\n\n-------------------------------------")
+                print(f"Compiling CV_Nazih_Boudaakkar_{name} {lang} {form}")
+                print("-------------------------------------\n\n\n")
+
+                return_code = subprocess.run(['xelatex', f'--jobname="CV_Nazih_Boudaakkar_{name}"',
+                                              f"./cv_{name}_{lang}_{form}.tex"])
+                if return_code:
+                    print("completed with return code ", return_code)
+        break
 
 
 if __name__ == "__main__":
