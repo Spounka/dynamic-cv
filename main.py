@@ -3,7 +3,7 @@ import yaml
 import os
 import subprocess
 from pathlib import Path
-from typing import TypedDict, List, Generator, Tuple
+from typing import TypedDict, List, Generator, Tuple, Literal
 
 BASE_DIR = Path(__file__).parent.resolve()
 DATA_DIR = BASE_DIR / "data"
@@ -11,7 +11,8 @@ TEMPLATES = BASE_DIR / "template"
 BUILD_DIR = BASE_DIR / 'build'
 PATH_TO_IMAGE = BASE_DIR / 'images' / 'NazihPicture3.jpg'
 
-LANGS = ['en', 'fr']
+LANGS: List[Literal['en', 'fr']] = ['en', 'fr']
+
 FORMATS = ['ats', 'pretty']
 
 
