@@ -8,11 +8,11 @@ from typing import TypedDict, List, Generator, Tuple, Literal
 BASE_DIR = Path(__file__).parent.resolve()
 DATA_DIR = BASE_DIR / "data"
 TEMPLATES = BASE_DIR / "template"
-BUILD_DIR = BASE_DIR / 'build'
-PATH_TO_IMAGE = BASE_DIR / 'images' / 'NazihPicture3.jpg'
+BUILD_DIR = BASE_DIR / "build"
+PATH_TO_IMAGE = BASE_DIR / "images" / "NazihPicture3.jpg"
 
-LANGS: List[Literal['en', 'fr']] = ['en', 'fr']
-FORMATS = ['ats', 'pretty']
+LANGS: List[Literal["en", "fr"]] = ["en", "fr"]
+FORMATS = ["ats", "pretty"]
 
 
 class EducationData(TypedDict):
@@ -98,13 +98,17 @@ class CVData(TypedDict):
 
 def list_yaml_files(directory: Path) -> List[Path]:
     """Lists all yaml files in directory and returns them in a list"""
-    return [file for file in directory.iterdir() if file.is_file() and file.suffix in ['.yml', '.yaml']]
+    return [
+        file
+        for file in directory.iterdir()
+        if file.is_file() and file.suffix in [".yml", ".yaml"]
+    ]
 
 
 def load_yaml_file(file: Path):
     """Opens a yaml file and parses it"""
     try:
-        with open(file, 'r') as stream:
+        with open(file, "r") as stream:
             return yaml.safe_load(stream)
     except yaml.YAMLError as err:
         print(err)
@@ -115,7 +119,7 @@ def load_data_files(path: Path) -> Generator[Tuple[CVData, str], None, None]:
     for file in list_yaml_files(path):
         data = load_yaml_file(file)
         if data:
-            yield data, file.name.split('.')[0]
+            yield data, file.name.split(".")[0]
 
 
 def render_template(template: Template, data: Language) -> str:
@@ -124,22 +128,22 @@ def render_template(template: Template, data: Language) -> str:
 
 
 def write_results_to_pdf(destination: str | Path, content: str) -> None:
-    with open(destination, 'w') as file:
+    with open(destination, "w") as file:
         file.write(content)
 
 
 def main():
     env = Environment(loader=FileSystemLoader(TEMPLATES))
-    env.comment_start_string = '{#%'
-    env.comment_end_string = '%#}'
+    env.comment_start_string = "{#%"
+    env.comment_end_string = "%#}"
     BUILD_DIR.mkdir(parents=True, exist_ok=True)
 
     for file, name in load_data_files(DATA_DIR):
-        if not file['languages']['en']['summary']['details']:
+        if not file["languages"]["en"]["summary"]["details"]:
             continue
 
         for lang in LANGS:
-            data = file['languages'][lang]
+            data = file["languages"][lang]
 
             for form in FORMATS:
                 temp = Path(BUILD_DIR / name / form / lang)
@@ -148,8 +152,7 @@ def main():
                 template = env.get_template(f"template_{form}.tex")
                 result = render_template(template, data)
 
-                write_results_to_pdf(
-                    temp / f"cv_{name}_{lang}_{form}.tex", result)
+                write_results_to_pdf(temp / f"cv_{name}_{lang}_{form}.tex", result)
                 os.chdir(temp)
                 print(os.getcwd())
 
@@ -157,8 +160,13 @@ def main():
                 print(f"Compiling CV_Nazih_Boudaakkar_{name} {lang} {form}")
                 print("-------------------------------------\n\n\n")
 
-                return_code = subprocess.run(['xelatex', f'--jobname="CV_Nazih_Boudaakkar_{name}"',
-                                              f"./cv_{name}_{lang}_{form}.tex"])
+                return_code = subprocess.run(
+                    [
+                        "xelatex",
+                        f'--jobname="CV_Nazih_Boudaakkar_{name}"',
+                        f"./cv_{name}_{lang}_{form}.tex",
+                    ]
+                )
                 if return_code:
                     print("completed with return code ", return_code)
         break
