@@ -108,7 +108,7 @@ def list_yaml_files(directory: Path) -> List[Path]:
 def load_yaml_file(file: Path):
     """Opens a yaml file and parses it"""
     try:
-        with open(file, "r") as stream:
+        with open(file, "r", encoding="utf-8") as stream:
             return yaml.safe_load(stream)
     except yaml.YAMLError as err:
         print(err)
@@ -128,7 +128,7 @@ def render_template(template: Template, data: Language) -> str:
 
 
 def write_results_to_pdf(destination: str | Path, content: str) -> None:
-    with open(destination, "w") as file:
+    with open(destination, "w", encoding="utf-8") as file:
         file.write(content)
 
 
