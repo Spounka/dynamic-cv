@@ -118,9 +118,9 @@ def load_data_files(path: Path) -> Generator[Tuple[CVData, str], None, None]:
             yield data, file.name.split('.')[0]
 
 
-def render_template(template: Template, data: CVData) -> str:
+def render_template(template: Template, data: Language) -> str:
     """Renders a template with the data"""
-    return template.render({**data, 'image': PATH_TO_IMAGE})
+    return template.render({**data, "image": PATH_TO_IMAGE})
 
 
 def write_results_to_pdf(destination: str | Path, content: str) -> None:
