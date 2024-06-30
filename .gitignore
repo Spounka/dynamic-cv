@@ -1,11 +1,11 @@
 .venv/
 .idea/
+__pycache__/
 
 template/
 sections/
 build/
 data/
-cv/
 
 *.gz
 *.aux
