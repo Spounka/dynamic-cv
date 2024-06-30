@@ -1,99 +1,22 @@
-from jinja2 import Environment, FileSystemLoader, Template
-import yaml
 import os
 import subprocess
 from pathlib import Path
-from typing import TypedDict, List, Generator, Tuple, Literal
+from typing import Generator, List, Literal, Tuple
 
-BASE_DIR = Path(__file__).parent.resolve()
-DATA_DIR = BASE_DIR / "data"
-TEMPLATES = BASE_DIR / "template"
+import yaml
+from jinja2 import Environment, FileSystemLoader, Template
+
+import config
+from cv_types import CVData, Language
+
+BASE_DIR = config.BASE_DIR
+DATA_DIR = BASE_DIR / "src" / "data"
+TEMPLATES = BASE_DIR / "src" / "template"
 BUILD_DIR = BASE_DIR / "build"
-PATH_TO_IMAGE = BASE_DIR / "images" / "NazihPicture3.jpg"
+PATH_TO_IMAGE = BASE_DIR / "src" / "images" / "NazihPicture3.jpg"
 
-LANGS: List[Literal["en", "fr"]] = ["en", "fr"]
-FORMATS = ["ats", "pretty"]
-
-
-class EducationData(TypedDict):
-    title: str
-    date: str
-    university: str
-
-
-class Education(TypedDict):
-    name: str
-    data: List[EducationData]
-
-
-class SkillData(TypedDict):
-    title: str
-    skills: List[str]
-
-
-class Skill(TypedDict):
-    name: str
-    data: List[SkillData]
-
-
-class Project(TypedDict):
-    name: str
-    date: str
-    description: List[str]
-
-
-class ExperienceData(TypedDict):
-    title: str
-    company: str
-    projects: List[Project]
-
-
-class Experience(TypedDict):
-    name: str
-    data: List[ExperienceData]
-
-
-class SpokenLanguageData(TypedDict):
-    name: str
-    proficiency: str
-
-
-class SpokenLanguage(TypedDict):
-    name: str
-    data: List[SpokenLanguageData]
-
-
-class PersonalInfo(TypedDict):
-    name: str
-    course: str
-    phone: str
-    email: str
-    address: str
-    github: str
-    linkedIn: str
-
-
-class SummaryInfo(TypedDict):
-    name: str
-    details: str
-
-
-class Language(TypedDict):
-    personal_info: PersonalInfo
-    summary: SummaryInfo
-    education: Education
-    technical_skills: Skill
-    experiences: Experience
-    spoken_languages: SpokenLanguage
-
-
-class Languages(TypedDict):
-    en: Language
-    fr: Language
-
-
-class CVData(TypedDict):
-    languages: Languages
+LANGS = config.LANGS
+FORMATS = config.FORMATS
 
 
 def list_yaml_files(directory: Path) -> List[Path]:
@@ -169,7 +92,6 @@ def main():
                 )
                 if return_code:
                     print("completed with return code ", return_code)
-        break
 
 
 if __name__ == "__main__":
