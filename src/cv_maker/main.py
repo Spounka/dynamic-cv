@@ -3,42 +3,18 @@ import subprocess
 from pathlib import Path
 from typing import Generator, List, Literal, Tuple
 
-import yaml
 from jinja2 import Environment, FileSystemLoader, Template
 
 import config
 from cv_types import CVData, Language
 
 
-def list_yaml_files(directory: Path) -> List[Path]:
-    """Lists all yaml files in directory and returns them in a list"""
-    return [
-        file
-        for file in directory.iterdir()
-        if file.is_file() and file.suffix in [".yml", ".yaml"]
-    ]
-
-
-def load_yaml_file(file: Path):
-    """Opens a yaml file and parses it"""
-    try:
-        with open(file, "r", encoding="utf-8") as stream:
-            return yaml.safe_load(stream)
-    except yaml.YAMLError as err:
-        print(err)
-        return None
-
-
-def load_data_files(path: Path) -> Generator[Tuple[CVData, str], None, None]:
-    for file in list_yaml_files(path):
-        data = load_yaml_file(file)
-        if data:
-            yield data, file.name.split(".")[0]
-
 
 def render_template(template: Template, data: Language) -> str:
     """Renders a template with the data"""
     return template.render({**data, "image": PATH_TO_IMAGE})
+from loader import YamlLoader
+from protocols import DataLoader
 
 
 def write_results_to_texfile(destination: str | Path, content: str) -> None:
@@ -52,7 +28,11 @@ def main():
     env.comment_end_string = "%#}"
     config.BUILD_DIR.mkdir(parents=True, exist_ok=True)
 
-    for file, name in load_data_files(DATA_DIR):
+    dataLoader: DataLoader = YamlLoader()
+
+    template = Template(config.TEMPLATES)
+
+    for file, name in dataLoader.load_all_files_in_dir(config.DATA_DIR):
         if not file["languages"]["en"]["summary"]["details"]:
             continue
 
