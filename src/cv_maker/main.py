@@ -1,18 +1,10 @@
 import os
 import subprocess
 from pathlib import Path
-from typing import Generator, List, Literal, Tuple
-
-from jinja2 import Environment, FileSystemLoader, Template
 
 import config
-from cv_types import CVData, Language
 
-
-
-def render_template(template: Template, data: Language) -> str:
-    """Renders a template with the data"""
-    return template.render({**data, "image": PATH_TO_IMAGE})
+from template import Template
 from loader import YamlLoader
 from protocols import DataLoader
 
@@ -23,9 +15,6 @@ def write_results_to_texfile(destination: str | Path, content: str) -> None:
 
 
 def main():
-    env = Environment(loader=FileSystemLoader(TEMPLATES))
-    env.comment_start_string = "{#%"
-    env.comment_end_string = "%#}"
     config.BUILD_DIR.mkdir(parents=True, exist_ok=True)
 
     dataLoader: DataLoader = YamlLoader()
@@ -43,8 +32,9 @@ def main():
                 temp = Path(config.BUILD_DIR / name / form / lang)
                 temp.mkdir(parents=True, exist_ok=True)
 
-                template = env.get_template(f"template_{form}.tex")
-                result = render_template(template, data)
+                result = template.render(
+                    f"template_{form}.tex", {**data, "image": config.PATH_TO_IMAGE}
+                )
 
                 write_results_to_texfile(temp / f"cv_{name}_{lang}_{form}.tex", result)
                 os.chdir(temp)
