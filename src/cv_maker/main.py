@@ -50,7 +50,7 @@ def render_template(template: Template, data: Language) -> str:
     return template.render({**data, "image": PATH_TO_IMAGE})
 
 
-def write_results_to_pdf(destination: str | Path, content: str) -> None:
+def write_results_to_texfile(destination: str | Path, content: str) -> None:
     with open(destination, "w", encoding="utf-8") as file:
         file.write(content)
 
@@ -75,7 +75,7 @@ def main():
                 template = env.get_template(f"template_{form}.tex")
                 result = render_template(template, data)
 
-                write_results_to_pdf(temp / f"cv_{name}_{lang}_{form}.tex", result)
+                write_results_to_texfile(temp / f"cv_{name}_{lang}_{form}.tex", result)
                 os.chdir(temp)
                 print(os.getcwd())
 
