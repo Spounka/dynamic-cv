@@ -9,15 +9,6 @@ from jinja2 import Environment, FileSystemLoader, Template
 import config
 from cv_types import CVData, Language
 
-BASE_DIR = config.BASE_DIR
-DATA_DIR = BASE_DIR / "src" / "data"
-TEMPLATES = BASE_DIR / "src" / "template"
-BUILD_DIR = BASE_DIR / "build"
-PATH_TO_IMAGE = BASE_DIR / "src" / "images" / "NazihPicture3.jpg"
-
-LANGS = config.LANGS
-FORMATS = config.FORMATS
-
 
 def list_yaml_files(directory: Path) -> List[Path]:
     """Lists all yaml files in directory and returns them in a list"""
@@ -59,17 +50,17 @@ def main():
     env = Environment(loader=FileSystemLoader(TEMPLATES))
     env.comment_start_string = "{#%"
     env.comment_end_string = "%#}"
-    BUILD_DIR.mkdir(parents=True, exist_ok=True)
+    config.BUILD_DIR.mkdir(parents=True, exist_ok=True)
 
     for file, name in load_data_files(DATA_DIR):
         if not file["languages"]["en"]["summary"]["details"]:
             continue
 
-        for lang in LANGS:
+        for lang in config.LANGS:
             data = file["languages"][lang]
 
-            for form in FORMATS:
-                temp = Path(BUILD_DIR / name / form / lang)
+            for form in config.FORMATS:
+                temp = Path(config.BUILD_DIR / name / form / lang)
                 temp.mkdir(parents=True, exist_ok=True)
 
                 template = env.get_template(f"template_{form}.tex")
