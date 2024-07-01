@@ -2,11 +2,11 @@ import os
 import subprocess
 from pathlib import Path
 
-import config
+from . import config
 
-from template import Template
-from loader import YamlLoader
-from protocols import DataLoader
+from .template import Template
+from .loader import YamlLoader
+from .protocols import DataLoader
 
 
 def write_results_to_texfile(destination: str | Path, content: str) -> None:
