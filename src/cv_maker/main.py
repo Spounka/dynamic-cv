@@ -22,12 +22,6 @@ def main():
     template = Template(config.TEMPLATES)
 
     for file, name in dataLoader.load_all_files_in_dir(config.DATA_DIR):
-        if not file["languages"]["en"]["summary"]["details"]:
-            continue
-
-        for lang in config.LANGS:
-            data = file["languages"][lang]
-
             for form in config.FORMATS:
                 temp = Path(config.BUILD_DIR / name / form / lang)
                 temp.mkdir(parents=True, exist_ok=True)
