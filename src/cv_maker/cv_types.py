@@ -1,25 +1,21 @@
-from typing import TypedDict, List
+from typing import List
+from typing_extensions import TypedDict
 
 
-class EducationData(TypedDict):
+class LabeledData[T](TypedDict):
+    title: str
+    data: List[T]
+
+
+class Education(TypedDict):
     title: str
     date: str
     university: str
 
 
-class Education(TypedDict):
-    name: str
-    data: List[EducationData]
-
-
-class SkillData(TypedDict):
+class SkillCategory(TypedDict):
     title: str
     skills: List[str]
-
-
-class Skill(TypedDict):
-    name: str
-    data: List[SkillData]
 
 
 class Project(TypedDict):
@@ -28,25 +24,15 @@ class Project(TypedDict):
     description: List[str]
 
 
-class ExperienceData(TypedDict):
+class Experience(TypedDict):
     title: str
     company: str
     projects: List[Project]
 
 
-class Experience(TypedDict):
-    name: str
-    data: List[ExperienceData]
-
-
-class SpokenLanguageData(TypedDict):
-    name: str
-    proficiency: str
-
-
 class SpokenLanguage(TypedDict):
     name: str
-    data: List[SpokenLanguageData]
+    proficiency: str
 
 
 class PersonalInfo(TypedDict):
@@ -64,19 +50,14 @@ class SummaryInfo(TypedDict):
     details: str
 
 
-class Language(TypedDict):
+class CVData(TypedDict):
     personal_info: PersonalInfo
     summary: SummaryInfo
-    education: Education
-    technical_skills: Skill
-    experiences: Experience
-    spoken_languages: SpokenLanguage
+    education: LabeledData[List[Education]]
+    technical_skills: LabeledData[List[SkillCategory]]
+    experiences: LabeledData[List[Experience]]
+    spoken_languages: LabeledData[List[SpokenLanguage]]
 
 
-class Languages(TypedDict):
-    en: Language
-    fr: Language
-
-
-class CVData(TypedDict):
-    languages: Languages
+class MultilangCVData(TypedDict):
+    languages: List[CVData]
