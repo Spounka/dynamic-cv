@@ -1,10 +1,8 @@
-from typing import Generator, Protocol, Tuple
+from typing import Generator
 from pathlib import Path
 from typing import List, Any
 
 import yaml
-
-from cv_types import CVData
 
 
 class YamlLoader:

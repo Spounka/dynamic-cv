@@ -1,5 +1,5 @@
 languages:
-  en:
+  -
     personal_info:
       name: ""
       course: ""
@@ -28,7 +28,8 @@ languages:
     spoken_languages:
       - name: ""
         proficiency: "Proficient"
-  fr:
+  -
+
     personal_info:
       name: ""
       course: ""
