@@ -1,6 +1,7 @@
 import os
-import subprocess
 from pathlib import Path
+
+from .backend import LatexEngine
 
 from . import config
 
@@ -21,35 +22,33 @@ def main():
 
     template = Template(config.TEMPLATES)
 
+    engine = LatexEngine()
+
     for file, name in dataLoader.load_all_files_in_dir(config.DATA_DIR):
         for data in file["languages"]:
             for form in config.FORMATS:
-                temp = Path(config.BUILD_DIR / name / form / lang)
-                temp.mkdir(parents=True, exist_ok=True)
+                template_path = Path(config.BUILD_DIR / name / form / data["language"])
+                template_path.mkdir(parents=True, exist_ok=True)
 
                 result = template.render(
                     f"template_{form}.tex", {**data, "image": config.PATH_TO_IMAGE}
                 )
 
                 write_results_to_texfile(
-                    temp / f"cv_{name}_{data['language']}_{form}.tex", result
+                    template_path / f"cv_{name}_{data['language']}_{form}.tex", result
                 )
-                os.chdir(temp)
+                os.chdir(template_path)
                 print(os.getcwd())
 
                 print("\n\n\n-------------------------------------")
                 print(f"Compiling CV_Nazih_Boudaakkar_{name} {data['language']} {form}")
                 print("-------------------------------------\n\n\n")
 
-                return_code = subprocess.run(
-                    [
-                        "xelatex",
-                        f"--jobname=CV_Nazih_Boudaakkar_{name}",
-                        f"./cv_{name}_{data['language']}_{form}.tex",
-                    ]
+                engine.render(
+                    file=(Path.cwd() / f"cv_{name}_{data['language']}_{form}.tex"),
+                    output=f"CV_Nazih_Boudaakkar_{name}",
+                    raise_on_exception=True,
                 )
-                if return_code:
-                    print("completed with return code ", return_code)
 
 
 if __name__ == "__main__":

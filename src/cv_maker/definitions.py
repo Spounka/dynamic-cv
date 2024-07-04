@@ -1,8 +1,10 @@
-from typing import List
+from typing import List, TypeVar, Generic
 from typing_extensions import TypedDict
 
+T = TypeVar("T")
 
-class LabeledData[T](TypedDict):
+
+class LabeledData(TypedDict, Generic[T]):
     title: str
     data: List[T]
 
