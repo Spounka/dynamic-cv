@@ -12,3 +12,7 @@ class BackendEngine(Protocol):
     def render(
         self, file: Path, output: str = "default", raise_on_exception: bool = False
     ): ...
+
+
+class CvMakerMode(Protocol):
+    def execute(self): ...
