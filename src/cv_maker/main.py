@@ -24,17 +24,17 @@ def main():
     for file, name in dataLoader.load_all_files_in_dir(config.DATA_DIR):
         for data in file["languages"]:
             for form in config.FORMATS:
-                temp = Path(config.BUILD_DIR / name / form / lang)
-                temp.mkdir(parents=True, exist_ok=True)
+                template_path = Path(config.BUILD_DIR / name / form / data["language"])
+                template_path.mkdir(parents=True, exist_ok=True)
 
                 result = template.render(
                     f"template_{form}.tex", {**data, "image": config.PATH_TO_IMAGE}
                 )
 
                 write_results_to_texfile(
-                    temp / f"cv_{name}_{data['language']}_{form}.tex", result
+                    template_path / f"cv_{name}_{data['language']}_{form}.tex", result
                 )
-                os.chdir(temp)
+                os.chdir(template_path)
                 print(os.getcwd())
 
                 print("\n\n\n-------------------------------------")
