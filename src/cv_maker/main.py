@@ -1,6 +1,7 @@
 import os
-import subprocess
 from pathlib import Path
+
+from .backend import LatexEngine
 
 from . import config
 
@@ -20,6 +21,8 @@ def main():
     dataLoader: DataLoader = YamlLoader()
 
     template = Template(config.TEMPLATES)
+
+    engine = LatexEngine()
 
     for file, name in dataLoader.load_all_files_in_dir(config.DATA_DIR):
         for data in file["languages"]:
@@ -41,15 +44,11 @@ def main():
                 print(f"Compiling CV_Nazih_Boudaakkar_{name} {data['language']} {form}")
                 print("-------------------------------------\n\n\n")
 
-                return_code = subprocess.run(
-                    [
-                        "xelatex",
-                        f"--jobname=CV_Nazih_Boudaakkar_{name}",
-                        f"./cv_{name}_{data['language']}_{form}.tex",
-                    ]
+                engine.render(
+                    file=(Path.cwd() / f"cv_{name}_{data['language']}_{form}.tex"),
+                    output=f"CV_Nazih_Boudaakkar_{name}",
+                    raise_on_exception=True,
                 )
-                if return_code:
-                    print("completed with return code ", return_code)
 
 
 if __name__ == "__main__":
