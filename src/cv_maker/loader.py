@@ -1,10 +1,9 @@
-from typing import Generator
 from pathlib import Path
-from typing import List, Any, TypeVar, Generic, Tuple, Dict
+from typing import Generator, List, Any, TypeVar, Generic, Tuple, Mapping
 
 import yaml
 
-T = TypeVar("T", bound=Dict[str, Any], covariant=True)
+T = TypeVar("T", bound=Mapping[Any, Any], covariant=True)
 
 
 class YamlLoader(Generic[T]):
