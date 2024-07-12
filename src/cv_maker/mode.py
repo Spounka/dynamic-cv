@@ -3,8 +3,6 @@ import os
 from pathlib import Path
 
 from . import config
-from .definitions import MultilangCVData
-from .loader import YamlLoader
 from .protocols import BackendEngine, DataLoader
 from .template import Template
 
@@ -19,7 +17,7 @@ class StandaloneMode:
     @staticmethod
     def validate_path(p: str, is_dir: bool = False, create: bool = False) -> Path:
         path = Path(p).resolve()
-        if not path.exists():
+        if not is_dir and not path.exists():
             raise IOError(f"File {path.resolve()} does not exist")
         if is_dir and not path.is_dir():
             if create:
