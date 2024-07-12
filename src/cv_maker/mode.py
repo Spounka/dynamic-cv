@@ -17,7 +17,7 @@ class StandaloneMode:
         self.template = Template(config.TEMPLATES)
 
     @staticmethod
-    def __validate_path(p: str, is_dir: bool = False, create: bool = False) -> Path:
+    def validate_path(p: str, is_dir: bool = False, create: bool = False) -> Path:
         path = Path(p).resolve()
         if not path.exists():
             raise IOError(f"File {path.resolve()} does not exist")
@@ -47,8 +47,8 @@ class StandaloneMode:
         else:
             args = arg.parse_args()
 
-        template_file = self.__validate_path(args.template, is_dir=False)
-        data_file = self.__validate_path(args.data, is_dir=False)
+        template_file = self.validate_path(args.template, is_dir=False)
+        data_file = self.validate_path(args.data, is_dir=False)
         out = self.handle_output_directory(args.out)
         return template_file, data_file, out
 
@@ -106,5 +106,3 @@ class StandaloneMode:
         )
 
         return parser
-
-
