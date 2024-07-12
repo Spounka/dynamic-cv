@@ -1,6 +1,7 @@
-from typing import Any
-from jinja2 import Environment, FileSystemLoader, Template as JinjaTemplate
 from pathlib import Path
+from typing import Any
+
+from jinja2 import Environment, FileSystemLoader, Template as JinjaTemplate
 
 
 class Template:

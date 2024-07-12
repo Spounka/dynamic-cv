@@ -1,5 +1,10 @@
-from typing import List, TypeVar, Generic
-from typing_extensions import TypedDict
+import sys
+from typing import Generic, List, TypeVar
+
+if sys.version_info < (3, 11):
+    from typing_extensions import TypedDict
+else:
+    from typing import TypedDict
 
 T = TypeVar("T")
 
@@ -53,12 +58,13 @@ class SummaryInfo(TypedDict):
 
 
 class CVData(TypedDict):
+    language: str
     personal_info: PersonalInfo
     summary: SummaryInfo
-    education: LabeledData[List[Education]]
-    technical_skills: LabeledData[List[SkillCategory]]
-    experiences: LabeledData[List[Experience]]
-    spoken_languages: LabeledData[List[SpokenLanguage]]
+    education: LabeledData[Education]
+    technical_skills: LabeledData[SkillCategory]
+    experiences: LabeledData[Experience]
+    spoken_languages: LabeledData[SpokenLanguage]
 
 
 class MultilangCVData(TypedDict):
