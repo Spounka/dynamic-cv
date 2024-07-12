@@ -1,7 +1,7 @@
 import argparse
-import os
+import tempfile
 from pathlib import Path
-from typing import List, Tuple, Generator
+from typing import Generator, List, Tuple
 
 import pytest
 from cv_maker.mode import StandaloneMode
@@ -65,7 +65,7 @@ def test_handle_output_directory_creates_parent(path):
 
     # Assert
     assert output.parent.exists()
-    assert output.exists() == False
+    assert not output.exists()
 
     output.parent.rmdir()
 
@@ -87,3 +87,49 @@ def test_handle_output_directory_returns_path(path, expected):
     assert str(output.resolve()) == expected
 
     output.parent.rmdir()
+
+
+@pytest.mark.parametrize("range", [(0,), (1,), (2,), (3,)])
+def test_validate_path_passes(range):
+    # assign
+    with tempfile.NamedTemporaryFile() as data_file:
+        # act
+        output = StandaloneMode.validate_path(data_file.name)
+
+    # assert
+    assert str(output.resolve()) == data_file.name
+
+
+@pytest.mark.parametrize("range", [(0,), (1,), (2,), (3,)])
+def test_validate_path_non_existant_throws(range):
+    # assign
+    # act
+    with pytest.raises(IOError):
+        # assert
+        _ = StandaloneMode.validate_path(f"/tmp/{range}-random-stuff.file")
+
+
+@pytest.mark.parametrize(
+    "path", ["/tmp/test-dir/", "/tmp/test-dir2/", "/tmp/test-dir3/"]
+)
+def test_validate_path_non_existant_dir_creates(path):
+    # assign
+    # act
+    output = StandaloneMode.validate_path(path, is_dir=True, create=True)
+    # assert
+    assert output.exists()
+    assert output.is_dir()
+
+    output.rmdir()
+
+
+@pytest.mark.parametrize(
+    "path", ["/tmp/test-dir/", "/tmp/test-dir2/", "/tmp/test-dir3/"]
+)
+def test_validate_path_non_existant_dir_throws(path):
+    # assign
+    # act
+    with pytest.raises(IOError):
+        output = StandaloneMode.validate_path(path, is_dir=True, create=False)
+    # assert
+    assert not Path(path).exists()
