@@ -58,12 +58,13 @@ class SummaryInfo(TypedDict):
 
 
 class CVData(TypedDict):
+    language: str
     personal_info: PersonalInfo
     summary: SummaryInfo
-    education: LabeledData[List[Education]]
-    technical_skills: LabeledData[List[SkillCategory]]
-    experiences: LabeledData[List[Experience]]
-    spoken_languages: LabeledData[List[SpokenLanguage]]
+    education: LabeledData[Education]
+    technical_skills: LabeledData[SkillCategory]
+    experiences: LabeledData[Experience]
+    spoken_languages: LabeledData[SpokenLanguage]
 
 
 class MultilangCVData(TypedDict):
