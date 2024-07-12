@@ -14,5 +14,6 @@ def main():
     parser = StandaloneMode(engine, StandaloneMode.init_parser())
     parser.execute(data_loader, parser.parser)
 
+
 if __name__ == "__main__":
     main()

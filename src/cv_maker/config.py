@@ -1,7 +1,6 @@
 from pathlib import Path
 from typing import List, Literal
 
-
 BASE_DIR = Path(__file__).parent.parent.parent.resolve()
 DATA_DIR = BASE_DIR / "src" / "data"
 TEMPLATES = BASE_DIR / "src" / "template"
