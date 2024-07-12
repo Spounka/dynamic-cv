@@ -130,6 +130,6 @@ def test_validate_path_non_existant_dir_throws(path):
     # assign
     # act
     with pytest.raises(IOError):
-        output = StandaloneMode.validate_path(path, is_dir=True, create=False)
+        _ = StandaloneMode.validate_path(path, is_dir=True, create=False)
     # assert
     assert not Path(path).exists()
