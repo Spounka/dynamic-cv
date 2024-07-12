@@ -84,7 +84,7 @@ def test_handle_output_directory_returns_path(path, expected):
 
     # Assert
     assert not output.exists()
-    assert str(output.resolve()) == expected
+    assert str(output.resolve()) == str(Path(expected).resolve())
 
     output.parent.rmdir()
 
@@ -97,7 +97,7 @@ def test_validate_path_passes(range):
         output = StandaloneMode.validate_path(data_file.name)
 
     # assert
-    assert str(output.resolve()) == data_file.name
+    assert str(output.resolve()) == str(Path(data_file.name).resolve())
 
 
 @pytest.mark.parametrize("range", [(0,), (1,), (2,), (3,)])
