@@ -1,9 +1,9 @@
 from pathlib import Path
-from typing import Generator, List, Any, TypeVar, Generic, Tuple, Mapping
+from typing import Any, Generator, Generic, List, Tuple, TypeVar
 
 import yaml
 
-T = TypeVar("T", bound=Mapping[Any, Any], covariant=True)
+T = TypeVar("T", covariant=True)
 
 
 class YamlLoader(Generic[T]):
@@ -15,7 +15,7 @@ class YamlLoader(Generic[T]):
             if file.is_file() and file.suffix in [".yml", ".yaml"]
         ]
 
-    def parse_file(self, file: Path) -> T | None:
+    def parse_file(self, file: Path) -> Any | None:
         """Opens a yaml file and parses it"""
         try:
             with open(file, "r", encoding="utf-8") as stream:

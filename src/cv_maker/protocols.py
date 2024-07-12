@@ -1,16 +1,19 @@
+import argparse
 from pathlib import Path
-from typing import Generator, List, Protocol, TypeVar, Generic, Dict, Any, Tuple
+from typing import Any, Generator, List, Protocol, Tuple
 
-T = TypeVar("T", bound=Dict[str, Any], covariant=True)
+T = Any
 
 
 class DataLoader(
-    Generic[T],
     Protocol,
 ):
     def list_files(self, directory: Path) -> List[Path]: ...
-    def parse_file(self, file: Path) -> dict[str, str] | None: ...
+
+    def parse_file(self, file: Path) -> T | None: ...
+
     def load_file(self, file: Path) -> Tuple[T | None, str]: ...
+
     def load_all_files_in_dir(
         self, path: Path
     ) -> Generator[Tuple[T, str], None, None]: ...
@@ -23,4 +26,4 @@ class BackendEngine(Protocol):
 
 
 class CvMakerMode(Protocol):
-    def execute(self): ...
+    def execute(self, data_loader: DataLoader, args: argparse.ArgumentParser): ...
