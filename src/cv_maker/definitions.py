@@ -1,4 +1,10 @@
-from typing import List, TypeVar, Generic, TypedDict
+import sys
+from typing import Generic, List, TypeVar
+
+if sys.version_info < (3, 11):
+    from typing_extensions import TypedDict
+else:
+    from typing import TypedDict
 
 T = TypeVar("T")
 
