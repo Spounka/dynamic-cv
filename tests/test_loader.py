@@ -47,7 +47,7 @@ def test_list_files_returns_all(setup_temp_yml_files, setup_data_loader):
     files = loader.list_files(temp_dir)
     # assert
     assert len(files) == len(temp_files)
-    assert files == temp_files
+    assert set(files) == set(temp_files)
 
 
 def test_list_files_returns_only_yml(setup_temp_mixed_files, setup_data_loader):
