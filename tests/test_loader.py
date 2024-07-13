@@ -72,7 +72,10 @@ def test_load_file_returns_name_and_data(
     # act
     loaded_data = list(loader.load_all_files_in_dir(temp_dir))
     # assert
-    for (data, name), stream in zip(loaded_data, temp_files):
+    for (data, name), stream in zip(
+        sorted(loaded_data, key=lambda f: f[1]),
+        sorted(temp_files, key=lambda x: x.name),
+    ):
         assert name == stream.stem
         assert data == {"name": "nazih", "value": "something"}
 
