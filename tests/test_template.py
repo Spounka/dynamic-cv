@@ -26,7 +26,7 @@ def test_template_returns_all_files(tmp_path_factory):
     template = Template(template_dir)
     # act
     template_list = [f for f in template.env.list_templates()]
-    result = [f.name for f in template_dir.iterdir() if f not in template_list]
+    result = [f.name for f in template_dir.iterdir() if f.stem not in template_list]
     # assert
     assert set(template_list) == set(result)
 

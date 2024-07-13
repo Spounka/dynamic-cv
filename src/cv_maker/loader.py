@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Generator, Generic, List, Tuple, TypeVar
+from typing import Any, Generator, Generic, List, Tuple, TypeVar, Union
 
 import yaml
 
@@ -15,7 +15,7 @@ class YamlLoader(Generic[T]):
             if file.is_file() and file.suffix in [".yml", ".yaml"]
         ]
 
-    def parse_file(self, file: Path) -> Any | None:
+    def parse_file(self, file: Path) -> Union[Any, None]:
         """Opens a yaml file and parses it"""
         try:
             with open(file, "r", encoding="utf-8") as stream:
@@ -30,7 +30,7 @@ class YamlLoader(Generic[T]):
             if data:
                 yield data, name
 
-    def load_file(self, file: Path) -> Tuple[T | None, str]:
+    def load_file(self, file: Path) -> Tuple[Union[T, None], str]:
         data, name = (self.parse_file(file), file.name.split(".")[0])
         if not data:
             return None, name

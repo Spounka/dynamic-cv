@@ -1,6 +1,6 @@
 import argparse
 from pathlib import Path
-from typing import Any, Generator, List, Protocol, Tuple
+from typing import Any, Generator, List, Protocol, Tuple, Union
 
 T = Any
 
@@ -10,9 +10,9 @@ class DataLoader(
 ):
     def list_files(self, directory: Path) -> List[Path]: ...
 
-    def parse_file(self, file: Path) -> T | None: ...
+    def parse_file(self, file: Path) -> Union[T, None]: ...
 
-    def load_file(self, file: Path) -> Tuple[T | None, str]: ...
+    def load_file(self, file: Path) -> Tuple[Union[T, None], str]: ...
 
     def load_all_files_in_dir(
         self, path: Path

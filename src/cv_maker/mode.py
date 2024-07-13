@@ -1,6 +1,7 @@
 import argparse
 import os
 from pathlib import Path
+from typing import Union
 
 from . import config
 from .protocols import BackendEngine, DataLoader
@@ -51,7 +52,7 @@ class StandaloneMode:
         return template_file, data_file, out
 
     @staticmethod
-    def __write_content_to_file(destination: str | Path, content: str) -> None:
+    def __write_content_to_file(destination: Union[str, Path], content: str) -> None:
         with open(destination, "w", encoding="utf-8") as file:
             file.write(content)
 
