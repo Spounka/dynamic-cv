@@ -28,7 +28,7 @@ def test_template_returns_all_files(tmp_path_factory):
     template_list = [f for f in template.env.list_templates()]
     result = [f.name for f in template_dir.iterdir() if f not in template_list]
     # assert
-    assert template_list == result
+    assert set(template_list) == set(result)
 
 
 @pytest.mark.parametrize(
