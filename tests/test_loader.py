@@ -97,7 +97,9 @@ def test_load_file_bad_yaml_raises(
 ):
     # assign
     non_existent = Path("/tmp") / "falty-existent.yml"
-    with open(non_existent, "w", encoding="utf-8") as stream:
+    if not non_existent.parent.exists():
+        non_existent.parent.mkdir()
+    with open(non_existent.resolve(), "w", encoding="utf-8") as stream:
         yaml.dump({"name": "nazih", "value": "something"}, stream)
         stream.write("grabage=something")
     loader: YamlLoader[MockLoadedDataType] = setup_data_loader
