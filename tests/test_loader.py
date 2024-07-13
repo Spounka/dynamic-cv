@@ -47,7 +47,7 @@ def test_list_files_returns_all(setup_temp_yml_files, setup_data_loader):
     files = loader.list_files(temp_dir)
     # assert
     assert len(files) == len(temp_files)
-    assert files == temp_files
+    assert set(files) == set(temp_files)
 
 
 def test_list_files_returns_only_yml(setup_temp_mixed_files, setup_data_loader):
@@ -72,7 +72,10 @@ def test_load_file_returns_name_and_data(
     # act
     loaded_data = list(loader.load_all_files_in_dir(temp_dir))
     # assert
-    for (data, name), stream in zip(loaded_data, temp_files):
+    for (data, name), stream in zip(
+        sorted(loaded_data, key=lambda f: f[1]),
+        sorted(temp_files, key=lambda x: x.name),
+    ):
         assert name == stream.stem
         assert data == {"name": "nazih", "value": "something"}
 
@@ -94,7 +97,9 @@ def test_load_file_bad_yaml_raises(
 ):
     # assign
     non_existent = Path("/tmp") / "falty-existent.yml"
-    with open(non_existent, "w", encoding="utf-8") as stream:
+    if not non_existent.parent.exists():
+        non_existent.parent.mkdir()
+    with open(non_existent.resolve(), "w", encoding="utf-8") as stream:
         yaml.dump({"name": "nazih", "value": "something"}, stream)
         stream.write("grabage=something")
     loader: YamlLoader[MockLoadedDataType] = setup_data_loader
