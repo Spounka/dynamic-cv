@@ -68,13 +68,18 @@ class StandaloneMode:
         if not data or not file_name:
             raise ValueError(f"Error in data file {data_file}")
 
-        result = self.template.render(str(template_file.name), data["languages"][0])
+        for language in data["languages"]:
+            result = self.template.render(str(template_file.name), language)
 
-        self.__write_content_to_file(out.parent / "output.tex", result)
+            self.__write_content_to_file(
+                out.parent / f"{out.name}_{language['language']}.tex", result
+            )
 
-        self.engine.render(
-            out.parent / "output.tex", output=out.name, raise_on_exception=True
-        )
+            self.engine.render(
+                out.parent / f"{out.name}_{language['language']}.tex",
+                output=f"{out.name}_{language['language']}",
+                raise_on_exception=True,
+            )
 
     @staticmethod
     def init_parser() -> argparse.ArgumentParser:
